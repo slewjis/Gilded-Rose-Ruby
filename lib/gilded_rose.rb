@@ -1,55 +1,38 @@
+require_relative './aged_brie.rb'
+require_relative './Sulfras.rb'
+require_relative './conjured.rb'
+require_relative './back_stage.rb'
+require_relative './normal_item.rb'
+
 class GildedRose
   attr_reader :name, :days_remaining, :quality
 
   def initialize(name:, days_remaining:, quality:)
-    @name = name
-    @days_remaining = days_remaining
-    @quality = quality
+    @item = {
+      "Aged Brie" => AgedBrie,
+      "Sulfuras, Hand of Ragnaros" => Sulfuras,
+      "Backstage passes to a TAFKAL80ETC concert" => BackStage,
+      "Normal Item" => NormalItem,
+      "Conjured Mana Cake" => Conjured,
+    }[name].new(name, days_remaining, quality)
   end
 
+
+
   def tick
-    if @name != "Aged Brie" and @name != "Backstage passes to a TAFKAL80ETC concert"
-      if @quality > 0
-        if @name != "Sulfuras, Hand of Ragnaros"
-          @quality = @quality - 1
-        end
-      end
-    else
-      if @quality < 50
-        @quality = @quality + 1
-        if @name == "Backstage passes to a TAFKAL80ETC concert"
-          if @days_remaining < 11
-            if @quality < 50
-              @quality = @quality + 1
-            end
-          end
-          if @days_remaining < 6
-            if @quality < 50
-              @quality = @quality + 1
-            end
-          end
-        end
-      end
-    end
-    if @name != "Sulfuras, Hand of Ragnaros"
-      @days_remaining = @days_remaining - 1
-    end
-    if @days_remaining < 0
-      if @name != "Aged Brie"
-        if @name != "Backstage passes to a TAFKAL80ETC concert"
-          if @quality > 0
-            if @name != "Sulfuras, Hand of Ragnaros"
-              @quality = @quality - 1
-            end
-          end
-        else
-          @quality = @quality - @quality
-        end
-      else
-        if @quality < 50
-          @quality = @quality + 1
-        end
-      end
-    end
+    @item.tick
   end
+
+  def name
+    @item.name
+  end
+  
+  def quality
+    @item.quality
+  end
+  def days_remaining
+    @item.days_remaining
+  end
+
+
 end
