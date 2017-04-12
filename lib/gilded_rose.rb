@@ -17,8 +17,6 @@ class GildedRose
     }[name].new(name, days_remaining, quality)
   end
 
-
-
   def tick
     @item.tick
   end
@@ -26,13 +24,12 @@ class GildedRose
   def name
     @item.name
   end
-  
+
   def quality
     @item.quality
   end
   def days_remaining
     @item.days_remaining
   end
-
 
 end
